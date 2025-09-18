@@ -372,6 +372,11 @@
     </style>
 </head>
 <body>
+    <!-- Elemento de audio para el sonido "tap" -->
+    <audio id="tap-sound" preload="auto">
+        <source src="https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/37b3eb2da9c15c04dfb71dfe1be60f088ea3cdfc/Tap.mp3" type="audio/mpeg">
+    </audio>
+    
     <div class="container">
         <header>
             <h1>Manual de Soluciones para la Reingeniería de los Procesos Eficientes en los Almacenes de Fabricación</h1>
@@ -840,6 +845,18 @@
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Obtener el elemento de audio
+            const tapSound = document.getElementById('tap-sound');
+            
+            // Función para reproducir el sonido
+            function playTapSound() {
+                // Reiniciar el audio al principio y reproducir
+                tapSound.currentTime = 0;
+                tapSound.play().catch(error => {
+                    console.error('Error al reproducir el sonido:', error);
+                });
+            }
+            
             const contentSections = document.querySelectorAll('.content-section');
             const homeSection = document.getElementById('home-section');
             
@@ -860,8 +877,10 @@
                 }
             }
             
+            // Añadir sonido a las tarjetas del menú
             document.querySelectorAll('.menu-card').forEach(card => {
                 card.addEventListener('click', () => {
+                    playTapSound();
                     const sectionId = card.dataset.section;
                     if (sectionId) {
                         showSection(sectionId);
@@ -869,10 +888,31 @@
                 });
             });
             
+            // Añadir sonido a los botones de retroceso
             document.querySelectorAll('.back-button').forEach(button => {
-                button.addEventListener('click', showHome);
+                button.addEventListener('click', () => {
+                    playTapSound();
+                    showHome();
+                });
             });
             
+            // Añadir sonido a cualquier botón o elemento interactivo
+            document.querySelectorAll('button').forEach(button => {
+                if (!button.classList.contains('back-button')) {
+                    button.addEventListener('click', () => {
+                        playTapSound();
+                    });
+                }
+            });
+            
+            // Añadir sonido a las tarjetas de solución
+            document.querySelectorAll('.solution-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    playTapSound();
+                });
+            });
+            
+            // Inicializar la página
             showHome();
         });
     </script>
